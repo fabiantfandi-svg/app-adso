@@ -2,8 +2,6 @@ from flask import Flask, jsonify
 import os
 import pymysql
 
-HARDCODED_PASSWORD = "SuperSecretPassword123!"
-
 app = Flask(__name__)
 
 def get_db_connection():
