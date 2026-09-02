@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  
+  npm:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: npm
+    restart: always
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./npm/data:/data
+      - ./npm/letsencrypt:/etc/letsencrypt
+    networks:
+      - red-app
+
+  
+  db:
+    image: mysql:8.0
+    container_name: servidor-bd-ejemplo
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: adso_db
+      MYSQL_USER: adso_user
+      MYSQL_PASSWORD: adso_password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - red-app
+
+  
+  api:
+    build: ./api
+    container_name: api-flask
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: db
+      DB_USER: adso_user
+      DB_PASSWORD: adso_password
+      DB_NAME: adso_db
+    depends_on:
+      - db
+    networks:
+      - red-app
+
+networks:
+  red-app:
+    driver: bridge
+
+volumes:
+  db_data:
