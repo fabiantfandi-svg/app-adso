@@ -1,0 +1,1 @@
+2026/09/02 15:22:09 [error] 237#237: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 179.1.219.177, server: nginxproxymanager, request: "GET /api/ HTTP/1.1", upstream: "http://127.0.0.1:3000/", host: "149.130.185.187:81", referrer: "http://149.130.185.187:81/nginx/proxy"
