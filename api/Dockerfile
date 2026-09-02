@@ -2,10 +2,16 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
+# Crear un entorno virtual aislado y ponerlo en el PATH
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
-    pip install --no-cache-dir --upgrade --force-reinstall -r requirements.txt
+# Actualizar las herramientas base dentro del entorno virtual
+RUN pip install --no-cache-dir --upgrade pip "setuptools>=78.1.1" wheel
+
+# Instalar las dependencias de la aplicación
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
